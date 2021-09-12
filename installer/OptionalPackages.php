@@ -40,6 +40,7 @@ class OptionalPackages
      * @var string[]
      */
     private $assetsToRemove = [
+        'composer.lock'
     ];
 
     /**
@@ -250,7 +251,9 @@ class OptionalPackages
             $this->composerDefinition['extra']['branch-alias'],
             $this->composerDefinition['extra']['optional-packages'],
             $this->composerDefinition['scripts']['pre-update-cmd'],
-            $this->composerDefinition['scripts']['pre-install-cmd']
+            $this->composerDefinition['scripts']['pre-install-cmd'],
+            $this->composerDefinition['scripts']['post-install-cmd'],
+            $this->composerDefinition['scripts']['post-create-project-cmd']
         );
     }
 
@@ -267,9 +270,8 @@ class OptionalPackages
     {
         // Update composer definition
         $this->composerJson->write($this->composerDefinition);
-        $this->addDefaultGitAttributes();
-        // $this->clearComposerLockFile();
-        $this->cleanUp();
+        $this->io->write('<info>删除安装程序类、配置、测试和文档</info>');
+        $this->recursiveRmdir($this->installerSource);
     }
 
     /**
@@ -411,16 +413,18 @@ class OptionalPackages
      *
      * @codeCoverageIgnore
      */
-    private function cleanUp(): void
+    public function cleanUp(): void
     {
-        $this->io->write('<info>删除安装程序类、配置、测试和文档</info>');
         foreach ($this->assetsToRemove as $target) {
             $target = $this->projectRoot . $target;
+            var_dump($target);
             if (file_exists($target)) {
+                var_dump(11111);
                 unlink($target);
             }
         }
-        $this->recursiveRmdir($this->installerSource);
+        var_dump($this->projectRoot . 'vendor');
+        $this->recursiveRmdir($this->projectRoot . 'vendor');
     }
 
     /**
