@@ -425,13 +425,10 @@ class OptionalPackages
     {
         foreach ($this->assetsToRemove as $target) {
             $target = $this->projectRoot . $target;
-            var_dump($target);
             if (file_exists($target)) {
-                var_dump(11111);
                 unlink($target);
             }
         }
-        var_dump($this->projectRoot . 'vendor');
         $this->recursiveRmdir($this->projectRoot . 'vendor');
     }
 
