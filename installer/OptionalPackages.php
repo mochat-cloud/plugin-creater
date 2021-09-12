@@ -113,9 +113,17 @@ class OptionalPackages
         // Parse the composer.json
         $this->parseComposerDefinition($composer, $composerFile);
         // Get optional packages configuration
-        $this->config = require __DIR__ . '/config.php';
+        $this->config = $this->getConfig();
         // Source path for this file
         $this->installerSource = realpath(__DIR__) . '/';
+    }
+
+    private function getConfig()
+    {
+        if (file_exists($file = __DIR__ . '/config.php')) {
+            return require $file;
+        }
+        return [];
     }
 
     /**
