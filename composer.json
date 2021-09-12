@@ -1,0 +1,42 @@
+{
+  "name": "mochat/plugin-creater",
+  "type": "project",
+  "license": "GPL-3.0",
+  "keywords": [
+    "php",
+    "mochat"
+  ],
+  "description": "MoChat Plugin Creater.",
+  "autoload": {
+    "psr-4": {
+      "Installer\\": "installer/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MoChatTest\\": "tests"
+    }
+  },
+  "require": {
+    "php": ">=7.4"
+  },
+  "require-dev": {
+    "composer/composer": "^2.0",
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "phpstan/phpstan": "^0.12",
+    "phpunit/phpunit": ">=7.0"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "scripts": {
+    "pre-install-cmd": "Installer\\Script::install",
+    "pre-update-cmd": "Installer\\Script::install",
+    "test": "phpunit -c phpunit.xml --colors=always",
+    "analyse": "phpstan analyse --memory-limit 1024M -l 0 ./src",
+    "cs-fix": "php-cs-fixer fix $1"
+  }
+}
